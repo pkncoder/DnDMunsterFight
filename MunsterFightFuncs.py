@@ -1,4 +1,5 @@
 import random
+import requests
 
 def test(winner, end, MunsBhp, MunsAhp, nameA, nameB):
   if MunsBhp <= 0:
@@ -40,3 +41,9 @@ def swap(nameA, nameB, MunsAhp, MunsBhp, MunsAAC, MunsBAC, MunsAHit, MunsBHit, M
   MunsAhitDie, MunsBhitDie = MunsBhitDie, MunsAhitDie
   rollsA, rollsB = rollsB, rollsA
   return nameA, nameB, MunsAhp, MunsBhp, MunsAAC, MunsBAC, MunsAHit, MunsBHit, MunsAhitDie, MunsBhitDie, rollsA, rollsB
+def response1(where, nameA):
+  response = requests.get(f"https://www.dnd5eapi.co/api/monsters/{nameA}")
+  return response.json()[where]
+def response2(where, nameB):
+  response = requests.get(f"https://www.dnd5eapi.co/api/monsters/{nameB}")
+  return response.json()[where]
