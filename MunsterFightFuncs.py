@@ -12,18 +12,20 @@ def test(winner, end, MunsBhp, MunsAhp, nameA, nameB):
     return winner, end
 
 
-def HitA(dmg, i, MunsAhitDie, rollsA):
+def HitA(dmg, i, MunsAhitDie, rollsA, MunsAMod):
     while i != rollsA:
         dmgroll = random.randint(1, MunsAhitDie)
         dmg += dmgroll
+        dmg += MunsAMod
         i += 1
     return dmg
 
 
-def HitB(dmg, i, MunsBhitDie, rollsB):
+def HitB(dmg, i, MunsBhitDie, rollsB, MunsBMod):
     while i != rollsB:
         dmgroll = random.randint(1, MunsBhitDie)
         dmg += dmgroll
+        dmg += MunsBMod
         i += 1
     return dmg
 
@@ -54,30 +56,23 @@ def get_monster(name):
 
 
 def action_damage(input):
-    # input = "1d8+3"
-
-    # Test type of input
-    if "+" not in input and "d" not in input: 
+    if "+" not in input and "d" not in input:
         return input, 1, 0
 
-    # Get the damage modifer 
     if "+" in input:
         input_split_1 = input.split("+")
         modifier = int(input_split_1[1])
         input = input_split_1[0]
-        
-    else: 
+    else:
         modifier = 0
 
-    # Break apart damage die 
     if "d" in input:
         damage_die = input_split_1[0]
         damage_die_split = damage_die.split("d")
         damage_die_count = int(damage_die_split[0])
         damage_die_type = int(damage_die_split[1])
-
     else:
         damage_die_count = 0
-        damage_die_type = 0 
+        damage_die_type = 0
 
     return damage_die_count, damage_die_type, modifier

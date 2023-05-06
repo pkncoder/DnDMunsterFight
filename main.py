@@ -3,7 +3,9 @@
 import random
 from MunsterFightFuncs import *
 
-print("This is a simulator that has two monsters fight.")
+print("This is a simulator that has two monsters fight either with your own stats, or using \
+       Wizards of the Coasts stats of their monsters. The link that this is using for stats, \
+       is within this API: https://www.dnd5eapi.co/")
 print("This is random and will have different outputs every time!")
 
 play = input(
@@ -16,13 +18,15 @@ if play == 'custom':
 
     MunsAhp = int(input(f"What is {nameA}'s Hp?\n"))
     MunsAAC = int(input(f"What is {nameA}'s AC?\n"))
-    MunsAhitDie = int(input(f"What is the hit die of {nameA}?\n"))
-    rollsA = int(input("How many times will the hit die be rolled?\n"))
+    MunsAhitDie = int(input(f"What is the possible max dammage of {nameA}?\n"))
+    rollsA = int(input("How many times will the damage die be rolled?\n"))
+    MunsAMod = int(input(f"What is the modifier of {nameA}'s attacks?\n"))
 
     MunsBhp = int(input(f"What is {nameB}'s Hp?\n"))
     MunsBAC = int(input(f"What is {nameB}'s AC?\n"))
-    MunsBhitDie = int(input(f"What is the hit die of {nameB}?\n"))
-    rollsB = int(input("How many times will the hit die be rolled?\n"))
+    MunsBhitDie = int(input(f"What is the possible max dammage of {nameB}?\n"))
+    rollsB = int(input("How many times will the damage die be rolled?\n"))
+    MunsBMod = int(input(f"What is the modifier of {nameB}'s attacks?\n"))
 
     end = False
     InGameTime = 0
@@ -47,7 +51,7 @@ if play == 'custom':
             dmg = 0
             i = 0
 
-            dmg = HitA(dmg, i, MunsAhitDie, rollsA)
+            dmg = HitA(dmg, i, MunsAhitDie, rollsA, MunsAMod)
 
             print(f'Damage is {dmg}!')
             MunsBhp -= dmg
@@ -68,7 +72,7 @@ if play == 'custom':
             dmg = 0
             i = 0
 
-            dmg = HitB(dmg, i, MunsBhitDie, rollsB)
+            dmg = HitB(dmg, i, MunsBhitDie, rollsB, MunsBMod)
 
             print(f"Dmg is {dmg}")
             MunsAhp -= dmg
@@ -97,8 +101,10 @@ elif play == 'real':
     MunsAhp = monsterA["hit_points"]
     MunsAAC = monsterA["armor_class"][0]["value"]
 
-    rollsA, MunsAhitDie, MunsAMod = action_damage(monsterA["actions"][0]["damage"][0]["damage_dice"])
-    rollsB, MunsBhitDie, MunsBMod = action_damage(monsterB["actions"][0]["damage"][0]["damage_dice"])
+    rollsA, MunsAhitDie, MunsAMod = action_damage(
+        monsterA["actions"][0]["damage"][0]["damage_dice"])
+    rollsB, MunsBhitDie, MunsBMod = action_damage(
+        monsterB["actions"][0]["damage"][0]["damage_dice"])
 
     MunsBhp = monsterB["hit_points"]
     MunsBAC = monsterB["armor_class"][0]["value"]
@@ -114,7 +120,7 @@ elif play == 'real':
 
     if Roll == 0:
         nameA, nameB, MunsAhp, MunsBhp, MunsAAC, MunsBAC, MunsAHit, MunsBHit, MunsAhitDie, MunsBhitDie, rollsA, rollsB = swap(
-           nameA, nameB, MunsAhp, MunsBhp, MunsAAC, MunsBAC, MunsAHit, MunsBHit, MunsAhitDie, MunsBhitDie, rollsA, rollsB)
+            nameA, nameB, MunsAhp, MunsBhp, MunsAAC, MunsBAC, MunsAHit, MunsBHit, MunsAhitDie, MunsBhitDie, rollsA, rollsB)
 
     while end == False:
         print(f"{nameA} attacts!")
@@ -126,7 +132,7 @@ elif play == 'real':
             dmg = 0
             i = 0
 
-            dmg = HitA(dmg, i, MunsAhitDie, rollsA)
+            dmg = HitA(dmg, i, MunsAhitDie, rollsA, MunsAMod)
 
             print(f'Damage is {dmg}!')
             MunsBhp -= dmg
@@ -147,7 +153,7 @@ elif play == 'real':
             dmg = 0
             i = 0
 
-            dmg = HitB(dmg, i, MunsBhitDie, rollsB)
+            dmg = HitB(dmg, i, MunsBhitDie, rollsB, MunsBMod)
 
             print(f"Dmg is {dmg}")
             MunsAhp -= dmg
